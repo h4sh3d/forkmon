@@ -18,22 +18,25 @@
     {% load stats_tags %}
 </head>
 <body>
-    {% if is_forked %}
-        <div style="font-size: x-large" align="center" class="alert alert-danger mt-4 mx-2">
-        WARNING: AN UNPLANNED CHAIN SPLIT HAS BEEN DETECTED.
-        </div>
-    {% elif has_forked %}
-        <div style="font-size: x-large" align="center" class="alert alert-warning mt-4 mx-2">
-        WARNING: AN UNPLANNED CHAIN SPLIT WAS DETECTED BUT HAS BEEN RE-ORGED.
-        </div>
-    {% else %}
-        <div style="font-size: x-large" align="center" class="alert alert-success mt-4 mx-2">
-        NO UNPLANNED CHAIN SPLIT DETECTED.
-        </div>
-    {% endif %}
-    <div class="card-deck row">
-    {% for n in nodes %}
-        <div class="col">
+<div class="container-fluid">
+    <div class="row">
+        {% if is_forked %}
+            <div style="font-size: x-large" align="center" class="alert alert-danger mt-4 mx-2">
+            WARNING: AN UNPLANNED CHAIN SPLIT HAS BEEN DETECTED.
+            </div>
+        {% elif has_forked %}
+            <div style="font-size: x-large" align="center" class="alert alert-warning mt-4 mx-2">
+            WARNING: AN UNPLANNED CHAIN SPLIT WAS DETECTED BUT HAS BEEN RE-ORGED.
+            </div>
+        {% else %}
+            <div style="font-size: x-large" align="center" class="alert alert-success mt-4 mx-2">
+            NO UNPLANNED CHAIN SPLIT DETECTED.
+            </div>
+        {% endif %}
+    </div>
+    <div class="row">
+        <div class="card-deck">
+        {% for n in nodes %}
             <div class="card {% if n.sched_forked %}card-primary{% elif is_forked %}card-danger{% elif not n.is_up %}card-info{% elif has_forked %}card-warning
             {% else %}card-success{% endif %}">
                 <div class="card-header text-white">
@@ -70,8 +73,8 @@
                         {% if n.is_up %}Operational{% else %}Down{% endif %}</span>
                 </div>
             </div>
+        {% endfor %}
         </div>
-    {% endfor %}
     </div>
     {% if is_forked %}
         <div class="alert alert-warning" align="center">
