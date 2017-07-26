@@ -20,7 +20,13 @@ in settings about the `DATABASES` with the following:
 ### Running
 
 The first time you run this software, you will need to do some database
-preparation and setup. You will need to run the following commands first:
+preparation and setup. 
+
+First you have to copy and complete the settings file.
+
+    $ cp forkmon/settings.py.sample forkmon/settings.py
+
+After that, you will need to run the following commands:
 
     python manage.py makemigrations
     python manage.py migrate
