@@ -1,1 +1,13 @@
 .idea/
+*.pyc
+*.sqlite
+*.ini
+*.swp
+
+nginx.conf
+setup.sh
+update.sh
+uwsgi_params
+
+# remove settings form traking
+forkmon/settings.py

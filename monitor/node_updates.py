@@ -43,6 +43,7 @@ def update_nodes():
             # get best block hash
             r = requests.post(url, data='{"method": "getbestblockhash", "params": [] }',
                               auth=(os.environ['RPC_USER'], os.environ['RPC_PASSWORD']))
+
             if r.status_code != 200:
                 continue
             rj = r.json()
