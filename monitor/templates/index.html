@@ -38,14 +38,6 @@
                 </div>
             {% endif %}
             <div class="card-columns">
-                <div class="card">
-                    <div style="text-align:center;">
-                        <img class="card-img-top" src="https://www.swissmadesoftware.org/.imaging/stk/swissmadesoftware/w500/dam/companies/bity/logo/BIty_LogoFinal/jcr:content/BIty_LogoFinal.2016-01-27-12-36-30.png" alt="Bity SA">
-                    </div>
-                    <div class="card-block">
-                        <p class="card-text">This service is a fork of <a href="https://btcforkmonitor.info/">btcforkmonitor.info</a> provided by <a href="https://www.bity.com">bity.com</a>.</p>
-                    </div>
-                </div>
             {% for n in nodes %}
                 <div class="card {% if n.sched_forked %}card-primary{% elif is_forked %}card-danger{% elif not n.is_up %}card-info{% elif has_forked %}card-warning
             {% else %}card-success{% endif %}">
@@ -84,6 +76,15 @@
                     </div>
                 </div>
             {% endfor %}
+
+                <div class="card">
+                    <div style="text-align:center;">
+                        <img class="card-img-top" src="https://www.swissmadesoftware.org/.imaging/stk/swissmadesoftware/w500/dam/companies/bity/logo/BIty_LogoFinal/jcr:content/BIty_LogoFinal.2016-01-27-12-36-30.png" alt="Bity SA">
+                    </div>
+                    <div class="card-block">
+                        <p class="card-text">This website is a fork of <a href="https://btcforkmonitor.info/" target="_blank">btcforkmonitor.info</a> provided by <a href="https://www.bity.com" target="_blank">bity.com</a>.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
