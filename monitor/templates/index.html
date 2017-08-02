@@ -97,32 +97,32 @@
         </div>
     </div>
     {% endif %}
-    <div class="row">
-        <div class="col">
-            <div class="card mx-auto w-50 mt-4 {% if is_forked %}card-warning{% endif %}">
-                <div class="card-header">
-                    Fork Activation Information
-                </div>
-                <ul class="list-group list-group-flush">
-                    {% for f in forks %}
-                        <li class="list-group-item">{{ f.name }}: {{ f.state }} since block {{ f.since }};
-                            {% if f.state == 'started' %}
-                            {{ f.count }}/{{ f.elapsed }}
-                            ({{ f.count|getpercent:f.elapsed}} signalling)
-                            ({{ f.threshold }}/{{ f.period }} Threshold)
-                            {% elif f.state == 'locked_in' %}
-                            Activates in {{ f.since|add:f.period|subtract:f.current }}
-                            blocks (Block {{ f.since|add:f.period }})
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                    {% for f in mtpforks %}
-                        <li class="list-group-item"> {{ f.name }}: Activates when Median Time is {{ f.activation_time }} UTC or later</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    </div>
+    <!--<div class="row">-->
+        <!--<div class="col">-->
+            <!--<div class="card mx-auto w-50 mt-4 {% if is_forked %}card-warning{% endif %}">-->
+                <!--<div class="card-header">-->
+                    <!--Fork Activation Information-->
+                <!--</div>-->
+                <!--<ul class="list-group list-group-flush">-->
+                    <!--{% for f in forks %}-->
+                        <!--<li class="list-group-item">{{ f.name }}: {{ f.state }} since block {{ f.since }};-->
+                            <!--{% if f.state == 'started' %}-->
+                            <!--{{ f.count }}/{{ f.elapsed }}-->
+                            <!--({{ f.count|getpercent:f.elapsed}} signalling)-->
+                            <!--({{ f.threshold }}/{{ f.period }} Threshold)-->
+                            <!--{% elif f.state == 'locked_in' %}-->
+                            <!--Activates in {{ f.since|add:f.period|subtract:f.current }}-->
+                            <!--blocks (Block {{ f.since|add:f.period }})-->
+                            <!--{% endif %}-->
+                        <!--</li>-->
+                    <!--{% endfor %}-->
+                    <!--{% for f in mtpforks %}-->
+                        <!--<li class="list-group-item"> {{ f.name }}: Activates when Median Time is {{ f.activation_time }} UTC or later</li>-->
+                    <!--{% endfor %}-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
     <div class="w-75 text-center pt-5 mx-auto">
         <h3>About This Website</h3>
         <p class="lead">
