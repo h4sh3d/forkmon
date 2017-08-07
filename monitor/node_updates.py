@@ -10,6 +10,7 @@ import datetime
 from .models import *
 
 logger = logging.getLogger("forkmon.task")
+logger.setLevel(logging.INFO)
 
 def update_nodes():
     update_id = get_random_string(length=10)
