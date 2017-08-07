@@ -36,6 +36,7 @@ def update_nodes():
     # update in-db chain for each node
     nodes = Node.objects.all()
     for node in nodes:
+        logger.info("Begining of node " + node.name)
         # try except statements for catching any errors that come from the requests. if there is an error, just skip
         # the node and continue
         try:
@@ -46,6 +47,7 @@ def update_nodes():
                               auth=(os.environ['RPC_USER'], os.environ['RPC_PASSWORD']))
 
             if r.status_code != 200:
+                logger.error("Error: " + r.status_code + " for " + url)
                 continue
             rj = r.json()
             best_block = rj['result']
@@ -69,11 +71,14 @@ def update_nodes():
             node.difficulty = header['difficulty']
             node.chainwork = header['chainwork']
 
+            logger.info("Node info retreived!")
+
             # check that this node's current top block is this block or the previous block
             blocks = Block.objects.all().filter(node=node, active=True).order_by("-height")
 
             # If there is no blockchain, add the first block
             if not blocks:
+                logger.info("Add the first block")
                 Block(hash=hash, height=height, node=node).save()
                 node.best_block_hash = hash
                 node.best_block_height = height
@@ -81,12 +86,14 @@ def update_nodes():
 
             # same block
             elif blocks[0].hash == hash:
+                logger.info("Same block, update node!")
                 node.best_block_hash = hash
                 node.best_block_height = height
                 node.prev_block_hash = prev
             # different block
             # next block: prev hash matches
             elif prev == blocks[0].hash:
+                logger.info("Add block to db")
                 # Add block to db
                 Block(hash=hash, height=height, prev=blocks[0], node=node).save()
                 node.best_block_hash = hash
@@ -95,6 +102,7 @@ def update_nodes():
             # otherwise need to reorg
             else:
                 # node's height is ahead
+                logger.info("Node's height is ahead")
                 blocks_to_add = [hash]
                 i = 0
                 # walk backwards until node height matches db height
@@ -206,17 +214,21 @@ def update_nodes():
                         fork.current = current
                         fork.save()
 
-
+            logger.info("Saving node... " + node.name)
             # mark as up and save
             node.is_up = True
             node.save()
         except Exception as e:
+            logger.error(e)
             print(e)
+
+            logger.error("Disable the node " + node.name)
             # mark that node is currently down
             node.is_up = False
             node.save()
             continue
 
+    logger.info("Begining of chain split detection...")
     # now that nodes are updated, check for chain splits
     nodes = Node.objects.all()
     has_split = False
