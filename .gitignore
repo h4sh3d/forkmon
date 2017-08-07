@@ -11,3 +11,5 @@ uwsgi_params
 
 # remove settings form traking
 forkmon/settings.py
+
+static/
