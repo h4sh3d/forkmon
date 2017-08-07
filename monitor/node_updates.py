@@ -47,7 +47,7 @@ def update_nodes():
                               auth=(os.environ['RPC_USER'], os.environ['RPC_PASSWORD']))
 
             if r.status_code != 200:
-                logger.error("Error: " + r.status_code + " for " + url)
+                logger.error("Error: " + str(r.status_code) + " for " + url)
                 continue
             rj = r.json()
             best_block = rj['result']
@@ -56,7 +56,7 @@ def update_nodes():
             r = requests.post(url, data='{"method": "getblockheader", "params": ["'+ best_block + '"] }',
                               auth=(os.environ['RPC_USER'], os.environ['RPC_PASSWORD']))
             if r.status_code != 200:
-                logger.error("Error: " + r.status_code + " for " + url)
+                logger.error("Error: " + str(r.status_code) + " for " + url)
                 continue
             rj = r.json()
             header = rj['result']
@@ -108,11 +108,11 @@ def update_nodes():
                 i = 0
                 # walk backwards until node height matches db height
                 while height > blocks[i].height:
-                    logger.info("Height: " + height)
+                    logger.info("Height: " + str(height))
                     r = requests.post(url, data='{"method": "getblockheader", "params": ["' + prev + '"] }',
                               auth=(os.environ['RPC_USER'], os.environ['RPC_PASSWORD']))
                     if r.status_code != 200:
-                        logger.error("Error: " + r.status_code + " for " + url)
+                        logger.error("Error: " + str(r.status_code) + " for " + url)
                         continue
                     rj = r.json()
                     header = rj['result']
@@ -120,7 +120,7 @@ def update_nodes():
                     hash = header['hash']
                     height = header['height']
                     if height > blocks[i].height:
-                        logger.info("Add block " + height)
+                        logger.info("Add block " + str(height))
                         blocks_to_add.append(hash)
 
                 logger.info("Walk down bd chain")
