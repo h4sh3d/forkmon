@@ -108,6 +108,7 @@ def update_nodes():
                 i = 0
                 # walk backwards until node height matches db height
                 while height > blocks[i].height:
+                    logger.info("Height: " + height)
                     r = requests.post(url, data='{"method": "getblockheader", "params": ["' + prev + '"] }',
                               auth=(os.environ['RPC_USER'], os.environ['RPC_PASSWORD']))
                     if r.status_code != 200:
@@ -119,6 +120,7 @@ def update_nodes():
                     hash = header['hash']
                     height = header['height']
                     if height > blocks[i].height:
+                        logger.info("Add block " + height)
                         blocks_to_add.append(hash)
 
                 logger.info("Walk down bd chain")
