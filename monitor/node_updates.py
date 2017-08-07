@@ -56,6 +56,7 @@ def update_nodes():
             r = requests.post(url, data='{"method": "getblockheader", "params": ["'+ best_block + '"] }',
                               auth=(os.environ['RPC_USER'], os.environ['RPC_PASSWORD']))
             if r.status_code != 200:
+                logger.error("Error: " + r.status_code + " for " + url)
                 continue
             rj = r.json()
             header = rj['result']
@@ -110,6 +111,7 @@ def update_nodes():
                     r = requests.post(url, data='{"method": "getblockheader", "params": ["' + prev + '"] }',
                               auth=(os.environ['RPC_USER'], os.environ['RPC_PASSWORD']))
                     if r.status_code != 200:
+                        logger.error("Error: " + r.status_code + " for " + url)
                         continue
                     rj = r.json()
                     header = rj['result']
@@ -118,6 +120,8 @@ def update_nodes():
                     height = header['height']
                     if height > blocks[i].height:
                         blocks_to_add.append(hash)
+
+                logger.info("Walk down bd chain")
                 # walk down db chain until node height matches
                 deactivated = 0
                 while blocks[i].height > height:
@@ -129,6 +133,7 @@ def update_nodes():
 
                     # increment
                     i += 1
+                logger.info("DB and node are at same height")
                 # now DB and node are at same height, walk backwards through both to find common ancestor
                 while blocks[i].hash != hash:
                     # deactivate the block here
@@ -147,12 +152,14 @@ def update_nodes():
                     r = requests.post(url, data='{"method": "getblockheader", "params": ["' + prev + '"] }',
                               auth=(os.environ['RPC_USER'], os.environ['RPC_PASSWORD']))
                     if r.status_code != 200:
+                        logger.error("Error: " + r.status_code + " for " + url)
                         continue
                     rj = r.json()
                     header = rj['result']
                     prev = header['previousblockhash']
                     hash = header['hash']
 
+                logger.info("Common ancestor")
                 # at common ancestor
                 # now add new blocks
                 prev_block = blocks[i]
@@ -172,6 +179,7 @@ def update_nodes():
                 r = requests.post(url, data='{"method": "getblockchaininfo", "params": [] }',
                                   auth=(os.environ['RPC_USER'], os.environ['RPC_PASSWORD']))
                 if r.status_code != 200:
+                    logger.error("Error: " + r.status_code + " for " + url)
                     continue
                 rj = r.json()
                 forks = rj['result']['bip9_softforks']
